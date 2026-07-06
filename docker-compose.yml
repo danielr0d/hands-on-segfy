@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: segfy-postgres
+    environment:
+      POSTGRES_DB: segfy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - segfy-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d segfy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: src/Segfy.Api/Dockerfile
+    container_name: segfy-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__SegfyDatabase: "Host=postgres;Port=5432;Database=segfy;Username=postgres;Password=postgres"
+    ports:
+      - "5000:8080"
+
+volumes:
+  segfy-postgres-data:
