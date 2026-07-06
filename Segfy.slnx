@@ -5,4 +5,8 @@
     <Project Path="src/Segfy.Domain/Segfy.Domain.csproj" />
     <Project Path="src/Segfy.Infrastructure/Segfy.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Segfy.Application.Tests/Segfy.Application.Tests.csproj" />
+    <Project Path="tests/Segfy.Domain.Tests/Segfy.Domain.Tests.csproj" />
+  </Folder>
 </Solution>
