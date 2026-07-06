@@ -1,9 +1,4 @@
--- Analytical queries for the Segfy Sinistros database (PostgreSQL).
--- Identifiers are double-quoted because EF Core (Npgsql provider) preserves the
--- PascalCase table/column names verbatim instead of folding them to lowercase.
-
--- 1. Ranking of insurance branches (Ramos) by percentage of denied claims (Negado)
---    among claims opened in the last 6 months.
+-- Ranking dos ramos com maior percentual de sinistros negados nos últimos 6 meses.
 SELECT
     r."Id"                                                 AS ramo_id,
     r."Nome"                                                AS ramo_nome,
@@ -19,7 +14,7 @@ LEFT JOIN "Sinistros" s ON s."ApoliceId" = a."Id" AND s."DataAbertura" >= NOW() 
 GROUP BY r."Id", r."Nome"
 ORDER BY percentual_negados DESC NULLS LAST;
 
--- 2. Top 10 clients by sum of ValorEstimado across claims currently EmAnalise or Aprovado.
+-- Top 10 clientes com maior soma de ValorEstimado em sinistros em análise ou aprovados;
 SELECT
     c."Id"                  AS cliente_id,
     c."Nome"                 AS cliente_nome,
@@ -32,10 +27,7 @@ GROUP BY c."Id", c."Nome"
 ORDER BY soma_valor_estimado DESC
 LIMIT 10;
 
--- 3. Average resolution time (in days) of closed claims (Encerrado), grouped by branch.
---    Resolution time = the moment HistoricoSinistros records the transition to
---    Encerrado minus DataAbertura (Encerrado is a terminal status, so there is at
---    most one such history row per claim).
+-- Tempo médio de resolução (em dias) de sinistros encerrados, agrupado por ramo;
 SELECT
     r."Id"   AS ramo_id,
     r."Nome" AS ramo_nome,
