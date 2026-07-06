@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Segfy.Api/Segfy.Api.csproj" />
     <Project Path="src/Segfy.Application/Segfy.Application.csproj" />
     <Project Path="src/Segfy.Domain/Segfy.Domain.csproj" />
     <Project Path="src/Segfy.Infrastructure/Segfy.Infrastructure.csproj" />
